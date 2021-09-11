@@ -12,6 +12,10 @@ class btn:
 
 REFRESH_PAGE_TIME = 3
 
+#   BIG_VAL   = CAP*0.4709
+#   SMALL_VAL = CAP*0.5291
+BIG_VAL = "47090"
+SMALL_VAL = "52910"
 # 1 screen
 refrestPageBtn = btn(995,187)
 crownBtn = btn(96,483)
@@ -123,9 +127,9 @@ class ClickMouse(threading.Thread):
                 # refresh NUMBER
                 self.click_n_delay(refresNumberBtn.x,refresNumberBtn.y,2)
                 # CALL BIG
-                self.click_procedure(bigBtn, "16481")
+                self.click_procedure(bigBtn, BIG_VAL)
                 # CALL SMALL
-                self.click_procedure(smallBtn, "18518")
+                self.click_procedure(smallBtn, SMALL_VAL)
 
                 self.count = self.count + 1
                 # reset mouse position to prevent unknown action

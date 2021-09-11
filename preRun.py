@@ -19,6 +19,6 @@ memudWindow  = gw.getWindowsWithTitle('MEmu')[0]
 # print(memudWindow.width)
 # print(memudWindow.height)
 memudWindow.moveTo(TOPLEFT_X, TOPLEFT_Y)
-# memudWindow.resizeTo(MEMU_W, MEMU_H) # 2 SCREEN
+memudWindow.resizeTo(MEMU_W, MEMU_H)
 
 

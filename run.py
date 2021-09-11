@@ -13,15 +13,15 @@ class btn:
 REFRESH_PAGE_TIME = 3
 
 # 1 screen
-refrestPageBtn = btn(1069,187)
-crownBtn = btn(156,483)
-refresNumberBtn = btn(960,315)
-bigBtn = btn(511,515)
-smallBtn = btn(850,515)
-moneyInput = btn(710,620)
-okBtn = btn(967,620)
-confirmBtn = btn(525,590)
-informBtn = btn(525,500)
+refrestPageBtn = btn(995,187)
+crownBtn = btn(96,483)
+refresNumberBtn = btn(887,315)
+bigBtn = btn(451,515)
+smallBtn = btn(790,515)
+moneyInput = btn(650,620)
+okBtn = btn(907,620)
+confirmBtn = btn(465,590)
+informBtn = btn(465,500)
 # 2 screen
 # refrestPageBtn = btn(4530,210)
 # crownBtn = btn(2725,800)
@@ -33,7 +33,7 @@ informBtn = btn(525,500)
 # confirmBtn = btn(3471, 1010)
 # informBtn = btn(3471, 800)
 
-delay = 2
+delay = 0.5
 button =  Button.left
 
 start_stop_key = KeyCode(char='s')
@@ -66,12 +66,12 @@ class ClickMouse(threading.Thread):
         mouse.click(button)
         time.sleep(0.5)
         mouse.click(button)
-        time.sleep(2)
+        time.sleep(3)
         pyautogui.moveTo(crownBtn.x, crownBtn.y, duration = 1)
         mouse.click(button)
 
         current_time = time.time()
-        endtime = current_time + 3
+        endtime = current_time + 2
         while current_time < endtime:
             pyautogui.scroll(-10000000)
             current_time = time.time()
@@ -79,7 +79,7 @@ class ClickMouse(threading.Thread):
         time.sleep(2)
         pyautogui.moveTo(bigBtn.x, bigBtn.y, duration = 1)
         current_time = time.time()
-        endtime = current_time + 3
+        endtime = current_time + 2
         while current_time < endtime:
             pyautogui.scroll(-10000000)
             current_time = time.time()
@@ -93,13 +93,13 @@ class ClickMouse(threading.Thread):
         # move to BIG
         self.click_n_delay(typeBtn.x,typeBtn.y,self.delay)
         # move to INPUT - moneyInput
-        self.click_n_delay(moneyInput.x,moneyInput.y,0.5)
+        self.click_n_delay(moneyInput.x,moneyInput.y,self.delay)
         pyautogui.typewrite(value)
         time.sleep(1)
         # move to OK - okBtn
-        self.click_n_delay(okBtn.x,okBtn.y,1)
+        self.click_n_delay(okBtn.x,okBtn.y,2)
         # move to CONFIRM - confirmBtn
-        self.click_n_delay(confirmBtn.x,confirmBtn.y,3)
+        self.click_n_delay(confirmBtn.x,confirmBtn.y,1)
         # move to close information - informBtn
         self.click_n_delay(informBtn.x,informBtn.y,self.delay)
     
@@ -119,22 +119,21 @@ class ClickMouse(threading.Thread):
                 if self.count % REFRESH_PAGE_TIME == 0:
                     print("Refresh page !")
                     self.refreshPage()
-                else:
-                    self.count = self.count + 1
-
+                
                 # refresh NUMBER
-                self.click_n_delay(refresNumberBtn.x,refresNumberBtn.y,self.delay)
+                self.click_n_delay(refresNumberBtn.x,refresNumberBtn.y,2)
                 # CALL BIG
                 self.click_procedure(bigBtn, "16481")
                 # CALL SMALL
                 self.click_procedure(smallBtn, "18518")
 
+                self.count = self.count + 1
                 # reset mouse position to prevent unknown action
                 pyautogui.moveTo(156, 900, duration = 1)
                 if self.count % REFRESH_PAGE_TIME == 1:
-                    time.sleep(246)
+                    time.sleep(256)
                 else:
-                    time.sleep(261)
+                    time.sleep(269)
 
 mouse = Controller()
 click_thread =  ClickMouse(delay,button)
@@ -149,6 +148,8 @@ def on_press(key):
     elif key == exit_key:
         click_thread.exit()
         listener.stop()
+        print("END!")
+        exit()
 
 with Listener(on_press = on_press) as listener:
     print("READY!")

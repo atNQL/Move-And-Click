@@ -4,7 +4,7 @@ print(gw.getAllTitles())
 print(gw.getWindowsWithTitle('MEmu'))
 
 # 1 SCREEN
-TOPLEFT_X = 80
+TOPLEFT_X = 20
 TOPLEFT_Y = 65
 MEMU_W = 844
 MEMU_H = 485

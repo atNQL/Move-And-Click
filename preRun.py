@@ -16,6 +16,7 @@ MEMU_H = 485
 # MEMU_H = 941
 
 memudWindow  = gw.getWindowsWithTitle('MEmu')[0]
+memudWindow.activate()
 # print(memudWindow.width)
 # print(memudWindow.height)
 memudWindow.moveTo(TOPLEFT_X, TOPLEFT_Y)

@@ -142,6 +142,8 @@ class ClickMouse(threading.Thread):
         self.running = False
         self.program_running = True
         self.count = 1
+        self.minusFlag = False
+        self.plusFlag = False
 
     def start_clicking(self):
         self.running = True
@@ -171,19 +173,31 @@ class ClickMouse(threading.Thread):
                 print(time.strftime('%X %x %Z'))
 
                 n = random.randint(0,5)
-
                 for r in runAll:
                     print("\tRun acc {0}: Cap:{1} \tBig:{2} \tSmall:{3} ".format(runAll.index(r), r.cap, r.bigVal, r.smallVal))
                     r.start()
+                    # reset mouse position to prevent unknown action
                     pyautogui.moveTo(920, 520, duration = 1)
                     time.sleep(separateRun[n])
-                    
                 self.count = self.count + 1
-                # reset mouse position to prevent unknown action
-                # pyautogui.moveTo(920, 520, duration = 1)
-                
+
                 elapsed_t = time.perf_counter() - start_time
-                time.sleep(300 - elapsed_t)
+                if n%3 == 0:
+                    time.sleep(300 - elapsed_t)
+                elif n%3 == 1:
+                    if self.plusFlag == False:
+                        self.plusFlag = True
+                        self.minusFlag = False
+                        time.sleep(320 - elapsed_t)
+                    else:
+                        time.sleep(300 - elapsed_t)
+                elif n%3 == 2:
+                    if self.minusFlag == False:
+                        self.minusFlag = True
+                        self.plusFlag = False
+                        time.sleep(280 - elapsed_t)
+                    else:
+                        time.sleep(300 - elapsed_t)
                 
 
 mouse = Controller()

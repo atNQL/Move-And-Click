@@ -5,7 +5,7 @@ from pynput import keyboard
 from pynput.mouse import Button, Controller
 from datetime import datetime
 import pyautogui
-
+import random
 
 REFRESH_PAGE_TIME = 3
 
@@ -24,8 +24,8 @@ class btn:
         self.y = btn_position_y
 
 class run:
-    def __init__(self, refrestPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn, informBtn, bigVal, smallVal):
-        self.refrestPageBtn = refresNumberBtn
+    def __init__(self, refrestPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn, informBtn,cap, bigVal, smallVal, refPageTime):
+        self.refrestPageBtn = refrestPageBtn
         self.crownBtn = crownBtn
         self.refresNumberBtn = refresNumberBtn
         self.bigBtn = bigBtn
@@ -36,8 +36,10 @@ class run:
         self.informBtn = informBtn
         self.count = 1
         self.delay = delay
+        self.cap = cap
         self.bigVal = bigVal
         self.smallVal = smallVal
+        self.refPageTime = refPageTime
 
     def refreshPage(self):
         pyautogui.moveTo(self.refrestPageBtn.x,self.refrestPageBtn.y, duration = 1)
@@ -82,25 +84,32 @@ class run:
         self.click_n_delay(self.informBtn.x,self.informBtn.y,self.delay)
 
     def start(self):
-        if self.count % REFRESH_PAGE_TIME == 0:
-            print("Refresh page !")
+        if self.count % self.refPageTime == 0:
+            print("\tRefresh page !")
             self.refreshPage()
 
         # refresh NUMBER
         self.click_n_delay(self.refresNumberBtn.x,self.refresNumberBtn.y,2)
-        # CALL BIG
-        self.click_procedure(self.bigBtn, self.bigVal)
-        # CALL SMALL
-        self.click_procedure(self.smallBtn, self.smallVal)
+        if random.randint(0,1) == 0:
+            # CALL BIG
+            self.click_procedure(self.bigBtn, self.bigVal)
+            # CALL SMALL
+            self.click_procedure(self.smallBtn, self.smallVal)
+        else:
+            # CALL SMALL
+            self.click_procedure(self.smallBtn, self.smallVal)
+            # CALL BIG
+            self.click_procedure(self.bigBtn, self.bigVal)
 
         self.count = self.count + 1
 
 #   BIG_VAL   = CAP*0.4709
 #   SMALL_VAL = CAP*0.5291
 # 1 screen
+CAP = "100000"
 BIG_VAL = "47090"
 SMALL_VAL = "52910"
-refrestPageBtn = btn(800,105)
+refrestPageBtn = btn(798,104)
 crownBtn = btn(60,340)
 refresNumberBtn = btn(710,208)
 bigBtn = btn(370,365)
@@ -109,9 +118,10 @@ moneyInput = btn(508,452)
 okBtn = btn(706,452)
 confirmBtn = btn(356,438)
 informBtn = btn(356,350)
-runIns = run(refrestPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn, informBtn,BIG_VAL,SMALL_VAL)
+runIns = run(refrestPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn, informBtn,CAP,BIG_VAL,SMALL_VAL,3)
 
 # 2 screen
+CAP_1 = "5000"
 BIG_VAL_1 = "2354"
 SMALL_VAL_1 = "2645"
 refrestPageBtn1 = btn(800,610)
@@ -123,11 +133,11 @@ moneyInput1 = btn(508,958)
 okBtn1 = btn(710,958)
 confirmBtn1 = btn(356,936)
 informBtn1 = btn(356,855)
-runIns1 = run(refrestPageBtn1, crownBtn1, refresNumberBtn1, bigBtn1, smallBtn1, moneyInput1, okBtn1, confirmBtn1, informBtn1,BIG_VAL_1,SMALL_VAL_1)
+runIns1 = run(refrestPageBtn1, crownBtn1, refresNumberBtn1, bigBtn1, smallBtn1, moneyInput1, okBtn1, confirmBtn1, informBtn1,CAP_1,BIG_VAL_1,SMALL_VAL_1, 5)
 
 runAll = [runIns, runIns1]
 
-
+separateRun = [5,11,17,7,2]
 class ClickMouse(threading.Thread):
     def __init__(self, delay, button):
         super().__init__()
@@ -152,6 +162,7 @@ class ClickMouse(threading.Thread):
     def run(self):
         while self.program_running:
             while self.running:
+                start_time = time.perf_counter()
                 print("Time  ------- ", self.count)
                 time.sleep(1)
                 print("...3")
@@ -163,18 +174,26 @@ class ClickMouse(threading.Thread):
                 print("...0")
                 print(time.strftime('%X %x %Z'))
 
+                n = random.randint(0,5)
+
                 for r in runAll:
-                    print("\tRun acc: ", runAll.index(r))
+                    print("\tRun acc {0}: Cap:{1} \tBig:{2} \tSmall:{3} ".format(runAll.index(r), r.cap, r.bigVal, r.smallVal))
                     r.count = self.count
                     r.start()
+                    pyautogui.moveTo(920, 520, duration = 1)
+                    time.sleep(separateRun[n])
                     
                 self.count = self.count + 1
                 # reset mouse position to prevent unknown action
-                pyautogui.moveTo(920, 520, duration = 1)
-                if self.count % REFRESH_PAGE_TIME == 1:
-                    time.sleep(256)
-                else:
-                    time.sleep(269)
+                # pyautogui.moveTo(920, 520, duration = 1)
+                
+                end_time = time.perf_counter()
+                elapsed_t = end_time - start_time
+                time.sleep(300 - elapsed_t)
+                # if self.count % REFRESH_PAGE_TIME == 1:
+                #     time.sleep(254 - 2*separateRun[n])
+                # else:
+                #     time.sleep(241 - 2*separateRun[n]) #269
                 
 
 mouse = Controller()

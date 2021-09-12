@@ -44,7 +44,7 @@ class run:
         mouse.click(button)
         time.sleep(0.5)
         mouse.click(button)
-        time.sleep(3)
+        time.sleep(5)
         pyautogui.moveTo(self.crownBtn.x, self.crownBtn.y, duration = 1)
         mouse.click(button)
 
@@ -82,8 +82,8 @@ class run:
         self.click_n_delay(self.informBtn.x,self.informBtn.y,self.delay)
 
     def start(self):
-        m = random.randint(0,7)
-        if m == 2 or m == 3 or m == 4 or m ==7:
+        m = random.randint(1,10)
+        if m == 2 or m == 3 or m == 6 or m == 7:
             print("\tRefresh page !")
             self.refreshPage()
 

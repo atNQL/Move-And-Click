@@ -18,15 +18,15 @@ REFRESH_PAGE_TIME = 3
 BIG_VAL = "47090"
 SMALL_VAL = "52910"
 # 1 screen
-refrestPageBtn = btn(995,187)
-crownBtn = btn(96,483)
-refresNumberBtn = btn(887,315)
-bigBtn = btn(451,515)
-smallBtn = btn(790,515)
-moneyInput = btn(650,620)
-okBtn = btn(907,620)
-confirmBtn = btn(465,590)
-informBtn = btn(465,500)
+refrestPageBtn = btn(800,105)
+crownBtn = btn(60,340)
+refresNumberBtn = btn(710,208)
+bigBtn = btn(370,365)
+smallBtn = btn(580,365)
+moneyInput = btn(508,452)
+okBtn = btn(706,452)
+confirmBtn = btn(356,438)
+informBtn = btn(356,350)
 # 2 screen
 # refrestPageBtn = btn(4530,210)
 # crownBtn = btn(2725,800)
@@ -37,7 +37,6 @@ informBtn = btn(465,500)
 # okBtn = btn(4308, 1070)
 # confirmBtn = btn(3471, 1010)
 # informBtn = btn(3471, 800)
-
 
 
 delay = 0.5

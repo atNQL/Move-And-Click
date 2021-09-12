@@ -4,10 +4,12 @@ print(gw.getAllTitles())
 print(gw.getWindowsWithTitle('MEmu'))
 
 # 1 SCREEN
-TOPLEFT_X = 20
-TOPLEFT_Y = 65
-MEMU_W = 844
-MEMU_H = 485
+TOPLEFT_X_1 = 15
+TOPLEFT_Y_1 = 10
+MEMU_W_1 = 686
+MEMU_H_1 = 395
+
+
 
 # 2 SCREEN
 # TOPLEFT_X = 2086
@@ -16,10 +18,12 @@ MEMU_H = 485
 # MEMU_H = 941
 
 memudWindow  = gw.getWindowsWithTitle('MEmu')[0]
-memudWindow.activate()
+# memudWindow.activate()
 # print(memudWindow.width)
 # print(memudWindow.height)
-memudWindow.moveTo(TOPLEFT_X, TOPLEFT_Y)
-memudWindow.resizeTo(MEMU_W, MEMU_H)
+# print(memudWindow.topleft)
+
+memudWindow.moveTo(TOPLEFT_X_1, TOPLEFT_Y_1)
+memudWindow.resizeTo(MEMU_W_1, MEMU_H_1)
 
 

@@ -131,6 +131,8 @@ class ClickMouse(threading.Thread):
         self.running = False
         self.program_running = True
         self.count = 1
+        self.minusFlag = False
+        self.plusFlag = False
         
 
     def start_clicking(self):

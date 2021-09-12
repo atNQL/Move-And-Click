@@ -1,6 +1,7 @@
 import time
 import threading
 from pynput.keyboard import Listener, KeyCode
+from pynput import keyboard
 from pynput.mouse import Button, Controller
 from datetime import datetime
 import pyautogui
@@ -37,11 +38,16 @@ informBtn = btn(465,500)
 # confirmBtn = btn(3471, 1010)
 # informBtn = btn(3471, 800)
 
+
+
 delay = 0.5
 button =  Button.left
 
-start_stop_key = KeyCode(char='s')
-exit_key = KeyCode(char='e')
+start_stop_key = keyboard.KeyCode(char='z')
+
+# {keyboard.Key.cmd, keyboard.Key.ctrl}
+exit_key = keyboard.Key.esc
+# key == keyboard.Key.escz
 
 class ClickMouse(threading.Thread):
     def __init__(self, delay, button):
@@ -120,6 +126,7 @@ class ClickMouse(threading.Thread):
                 time.sleep(1)
                 print("...0")
                 print(time.strftime('%X %x %Z'))
+                
                 if self.count % REFRESH_PAGE_TIME == 0:
                     print("Refresh page !")
                     self.refreshPage()

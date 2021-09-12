@@ -173,12 +173,36 @@ class ClickMouse(threading.Thread):
                 print(time.strftime('%X %x %Z'))
 
                 n = random.randint(0,5)
-                for r in runAll:
-                    print("\tRun acc {0}: Cap:{1} \tBig:{2} \tSmall:{3} ".format(runAll.index(r), r.cap, r.bigVal, r.smallVal))
-                    r.start()
-                    # reset mouse position to prevent unknown action
+                if n % 2 == 0:
+                    # RUN ACC 0
+                    print("\tRun acc 0: Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns.cap, runIns.bigVal, runIns.smallVal))
+                    runIns.start()
+                    # move mouse out of activate window to prevent unknown action
                     pyautogui.moveTo(920, 520, duration = 1)
                     time.sleep(separateRun[n])
+                    # RUN ACC 1
+                    print("\tRun acc 1: Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns1.cap, runIns1.bigVal, runIns1.smallVal))
+                    runIns1.start()
+                    pyautogui.moveTo(920, 520, duration = 1)
+                else:
+                    # RUN ACC 1
+                    print("\tRun acc 1: Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns1.cap, runIns1.bigVal, runIns1.smallVal))
+                    runIns1.start()
+                    pyautogui.moveTo(920, 520, duration = 1)
+                    time.sleep(separateRun[n])
+                    # RUN ACC 0
+                    print("\tRun acc 0: Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns.cap, runIns.bigVal, runIns.smallVal))
+                    runIns.start()
+                    # move mouse out of activate window to prevent unknown action
+                    pyautogui.moveTo(920, 520, duration = 1)
+                    
+                # TODO: for future, having more than 2 ins
+                # for r in runAll:
+                #     print("\tRun acc {0}: Cap:{1} \tBig:{2} \tSmall:{3} ".format(runAll.index(r), r.cap, r.bigVal, r.smallVal))
+                #     r.start()
+                #     # reset mouse position to prevent unknown action
+                #     pyautogui.moveTo(920, 520, duration = 1)
+                #     time.sleep(separateRun[n])
                 self.count = self.count + 1
 
                 elapsed_t = time.perf_counter() - start_time

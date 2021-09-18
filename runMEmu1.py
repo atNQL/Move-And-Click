@@ -24,8 +24,8 @@ exit_key = keyboard.Key.esc
 
 # 1 screen
 
-INITIAL_PLAY_NUMER = 121
-cap1 = 34800
+INITIAL_PLAY_NUMBER = 142
+cap1 = 35300
 refreshPageBtn1 = btn(800,610,"Refresh Page" ,(0,0,0))
 crownBtn1 = btn(60,863,"Crown btn",(241,49,49))
 refresNumberBtn1 = btn(710,719,"F5 Number",(239, 141, 134))
@@ -62,7 +62,6 @@ class Program():
         self.count = 1
         self.minusFlag = False
         self.plusFlag = False
-        self.profit = 0
         
 
     def start_auto(self):
@@ -85,12 +84,11 @@ class Program():
             while self.running:
                 print(time.strftime('%X %x %Z'))
                 
-                print("Profit: ", runIns1.profit)
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
                 start_time = time.perf_counter()
-                print("Time  ------- {} -------- {}".format(self.count, self.count -1 + INITIAL_PLAY_NUMER))
+                print("Time  ------- {} -------- {}".format(self.count, self.count -1 + INITIAL_PLAY_NUMBER))
                 time.sleep(1)
                 print("...3")
                 time.sleep(1)
@@ -100,12 +98,13 @@ class Program():
                 time.sleep(1)
                 print("...0")
                 
-                print("\tRun : Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns1.cap, runIns1.bigVal, runIns1.smallVal))
+                print("---> Run : Cap:{0} \tBig:{1} \tSmall:{2} ".format(runIns1.cap, runIns1.bigVal, runIns1.smallVal))
+                print("\tProfit: ", runIns1.profit)
                 runIns1.start()
                 # move mouse out of activate window to prevent unknown action
                 pyautogui.moveTo(920, 520, duration = 1)
                 runIns1.calProfitNewCap()
-                print("End   ------- {} -------- {} -------------------------------".format(self.count, self.count -1 + INITIAL_PLAY_NUMER))
+                print("End   ------- {} -------- {} -------------------------------".format(self.count, self.count -1 + INITIAL_PLAY_NUMBER))
                 self.count = self.count + 1
                 winsound.Beep(frequency, 300)
 

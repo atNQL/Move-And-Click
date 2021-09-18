@@ -41,14 +41,15 @@ class run:
         self.rmBtn = rmBtn
         self.confirmRm = confirmRm
         self.profit = 0
+        self.profitBound = 100
 
     def calProfitNewCap(self):
         self.profit = self.profit + round(self.cap*0.000736) 
-        if self.profit >= 100:
-            self.cap = self.cap + 100
+        if self.profit >= self.profitBound:
+            self.cap = self.cap + self.profitBound
             self.bigVal = str(round(self.cap*0.4709))
             self.smallVal = str(round(self.cap*0.5291))
-            self.profit = self.profit - 100
+            self.profit = self.profit - self.profitBound
             print ("Next cap is ", self.cap)
         
     
@@ -149,7 +150,7 @@ class run:
         self.status = 1
         # move to close information - informBtn
         rgb = PIL.ImageGrab.grab().load()[self.informBtn.x,self.informBtn.y]
-        endtime = time.time() + 7
+        endtime = time.time() + 5
         while rgb != self.informBtn.rgb:
             print("Over 3s for confirmation form appear!!!")
             current_time = time.time()
@@ -157,6 +158,8 @@ class run:
             if current_time > endtime:
                 self.interrupt("CEP")
             time.sleep(1)
+
+        self.checkRGB(self.confirmBtn.x,self.confirmBtn.y,(153,153,153), "Check after clicking submit !!!")
 
         self.click_n_delay(self.informBtn,self.delay)
 

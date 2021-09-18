@@ -2,7 +2,7 @@ import time
 # from pynput.keyboard import Listener, KeyCode
 # from pynput import keyboard
 # from pynput.mouse import Button, Controller
-from datetime import datetime
+# from datetime import datetime
 import pyautogui
 import random
 import winsound
@@ -13,10 +13,9 @@ delay = 1
 button =  Button.left
 
 start_stop_key = keyboard.KeyCode(char='z')
-
 # {keyboard.Key.cmd, keyboard.Key.ctrl}
 exit_key = keyboard.Key.esc
-# key == keyboard.Key.escz
+# key == keyboard.Key.esc
 
 # BIG_VAL   = CAP*0.4709
 # SMALL_VAL = CAP*0.5291
@@ -24,25 +23,25 @@ exit_key = keyboard.Key.esc
 
 # 1 screen
 
-INITIAL_PLAY = 239
-cap1 = 24100
-refreshPageBtn1 = btn(800,610,"Refresh Page" ,(0,0,0))
-crownBtn1 = btn(60,848,"Crown btn",(0,0,0))
-refresNumberBtn1 = btn(710,719,"F5 Number",(239, 141, 134))
-bigBtn1 = btn(462,886,"Big", (255,255,255)) #btn(416,875,())
-smallBtn1 = btn(813,888,"Small",(255,255,255)) #btn(626,875)
-moneyInput1 = btn(501,957,"Money Input",(175,175,175))
-okBtn1 = btn(710,958,"Ok",(241, 49, 49))
-submitBtn1 = btn(361,935,"Submit",(255, 0, 0))
-confirmBtn1_buff = btn(356,985,"Submit",(255, 0, 0))
-informBtn1 = btn(406,861,"Confirm",(4,124,255))
-menuBtn1 = btn(803,658,"Menu",(242,64,64))
-recordBtn1 = btn(745,809,"Record btn",(252,252,252))
-removeBtn = btn(558,760,"Remove btn",(20,132,255))
-confirmRm = btn(473,882,"Confirm Remove btn",(250,250,250))
+INITIAL_PLAY_NUMER = 113
+cap = 34600
+refreshPageBtn = btn(800,104,"Refresh Page" ,(0,0,0))
+crownBtn = btn(60,357,"Crown btn",(241,49,49))
+refresNumberBtn = btn(710,213,"F5 Number",(239, 141, 134))
+bigBtn = btn(462,380,"Big", (255,255,255)) #btn(416,875,())
+smallBtn = btn(813,382,"Small",(255,255,255)) #btn(626,875)
+moneyInput = btn(501,451,"Money Input",(175,175,175))
+okBtn = btn(710,452,"Ok",(241, 49, 49))
+submitBtn = btn(361,429,"Submit",(255, 0, 0))
+selfCheckBtn = btn(562,370,"Self Check",(65, 35, 242))
+informBtn = btn(406,355,"Confirm",(4, 124, 255))
+menuBtn = btn(803,152,"Menu",(242,64,64))
+recordBtn = btn(745,303,"Record btn",(252,252,252))
+removeBtn = btn(558,254,"Remove btn",(20,132,255))
+confirmRm = btn(473,376,"Confirm Remove btn",(250,250,250))
 
-runIns1 = run(refreshPageBtn1, crownBtn1, refresNumberBtn1, bigBtn1, smallBtn1, moneyInput1, okBtn1, submitBtn1, confirmBtn1_buff, 
-                    informBtn1,menuBtn1,recordBtn1,removeBtn,confirmRm,cap1)
+runIns1 = run(refreshPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, submitBtn, selfCheckBtn, 
+                    informBtn,menuBtn,recordBtn,removeBtn,confirmRm,cap)
 # 2 screen
 # refrestPageBtn = btn(4530,210)
 # crownBtn = btn(2725,800)
@@ -85,12 +84,12 @@ class Program():
             while self.running:
                 print(time.strftime('%X %x %Z'))
                 
-                print("Profit: ", self.profit)
+                print("Profit: ", runIns1.profit)
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
                 start_time = time.perf_counter()
-                print("Time  ------- {} -------- {}".format(self.count, self.count -1 + INITIAL_PLAY))
+                print("Time  ------- {} -------- {}".format(self.count, self.count -1 + INITIAL_PLAY_NUMER))
                 time.sleep(1)
                 print("...3")
                 time.sleep(1)
@@ -104,12 +103,8 @@ class Program():
                 runIns1.start()
                 # move mouse out of activate window to prevent unknown action
                 pyautogui.moveTo(920, 520, duration = 1)
-                self.profit = self.profit + round(runIns1.cap*0.000736) 
-                if self.profit >= 100:
-                    runIns1.setNewCap(runIns1.cap + 100)
-                    self.profit = self.profit - 100
-                    print ("Next cap is ", runIns1.cap)
-                print("End   ------- {} -------- {} -------------------------------".format(self.count, self.count -1 + INITIAL_PLAY))
+                runIns1.calProfitNewCap()
+                print("End   ------- {} -------- {} -------------------------------".format(self.count, self.count -1 + INITIAL_PLAY_NUMER))
                 self.count = self.count + 1
                 winsound.Beep(frequency, 300)
 

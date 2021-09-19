@@ -11,6 +11,8 @@ button =  Button.left
 
 start_stop_key = keyboard.KeyCode(char='z')
 exit_key = keyboard.Key.esc
+waitingClickTime=[2,0,3,4,7,1]
+
 
 class btn:
     def __init__(self, btn_position_x, btn_position_y, message, rgb_input):
@@ -19,7 +21,7 @@ class btn:
         self.message = message
         self.rgb = rgb_input
 class run:
-    def __init__(self, refreshPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn,selfCheckBtn, informBtn,menuBtn,recordBtn,rmBtn, confirmRm,cap):
+    def __init__(self, refreshPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyInput, okBtn, confirmBtn,selfCheckBtn, informBtn,menuBtn,recordBtn,rmBtn, confirmRm,cap, lastCheck, offSetPos):
         self.refreshPageBtn = refreshPageBtn
         self.crownBtn = crownBtn
         self.refresNumberBtn = refresNumberBtn
@@ -40,8 +42,14 @@ class run:
         self.recordBtn = recordBtn
         self.rmBtn = rmBtn
         self.confirmRm = confirmRm
+        self.lastCheck = lastCheck
         self.profit = 0
         self.profitBound = 100
+        self.smallCheck = btn(459,381+offSetPos,"Small order check",(150, 150, 150))
+        self.bigCheck = btn(459,381+offSetPos,"Big ordder Check",(174, 174, 174))
+        self.iconCheck = btn(221,209+offSetPos,"Icon Check",(91,154,223))
+        self.backBtn = btn(201,151+offSetPos,"Back record btn", (241,49,49))
+        self.offset = offSetPos
 
     def calProfitNewCap(self):
         self.profit = self.profit + round(self.cap*0.000736) 
@@ -54,11 +62,22 @@ class run:
         
     
     def refreshPage(self):
-        pyautogui.moveTo(self.refreshPageBtn.x,self.refreshPageBtn.y, duration = 1)
+        pyautogui.moveTo(self.refreshPageBtn.x,self.refreshPageBtn.y, duration = 0.5)
         mouse.click(button)
         time.sleep(0.5)
         mouse.click(button)
-        time.sleep(4)
+        
+        rgb = PIL.ImageGrab.grab().load()[63,259+self.offset]
+        endtime = time.time() + 10
+        while rgb != self.okBtn.rgb:
+            print("\t--> Waiting for loading page!!!")
+            current_time = time.time()
+            rgb = PIL.ImageGrab.grab().load()[63,259+self.offset]
+            if current_time > endtime:
+                self.interrupt("Can not load page!!!")
+            time.sleep(1)
+
+
         pyautogui.moveTo(self.crownBtn.x, self.crownBtn.y, duration = 1)
         time.sleep(1)
         mouse.click(button)
@@ -70,16 +89,16 @@ class run:
             current_time = time.time()
         mouse.click(button)
         mouse.click(button)
-        time.sleep(1)
-        pyautogui.moveTo(self.bigBtn.x, self.bigBtn.y, duration = 1)
-        current_time = time.time()
-        endtime = current_time + 1
-        while current_time < endtime:
-            pyautogui.scroll(-10000000)
-            current_time = time.time()
+        time.sleep(0.5)
+        # pyautogui.moveTo(self.bigBtn.x, self.bigBtn.y, duration = 1)
+        # current_time = time.time()
+        # endtime = current_time + 1
+        # while current_time < endtime:
+        #     pyautogui.scroll(-10000000)
+        #     current_time = time.time()
     
     def click_n_delay(self,btn_in, t_delay):
-        pyautogui.moveTo(btn_in.x, btn_in.y, duration = 1)
+        pyautogui.moveTo(btn_in.x, btn_in.y, duration = 0.5)
         while pyautogui.position().x != btn_in.x or pyautogui.position().y != btn_in.y:
             self.interrupt("Move to wrong position! >>> STOPPED !")
         
@@ -90,6 +109,7 @@ class run:
 
     def removeSubmitted(self):
         print ("Remove summit!")
+
         # pyautogui.moveTo(self.refreshPageBtn.x,self.refreshPageBtn.y, duration = 1)
         # mouse.click(button)
         # time.sleep(0.5)
@@ -116,6 +136,75 @@ class run:
         while True:
                 winsound.Beep(2500,3000)
                 time.sleep(1)
+
+    def checkOrder(self):
+        self.click_n_delay(self.menuBtn,self.delay)
+        time.sleep(0.7)
+        self.click_n_delay(self.recordBtn,self.delay)
+        # default wait time
+        time.sleep(2)
+        # extern wait time
+        rgb = PIL.ImageGrab.grab().load()[self.rmBtn.x,self.rmBtn.y]
+        endtime = time.time() + 7
+        while rgb != self.rmBtn.rgb:
+            print("\t--> Waiting for loading all order!!!")
+            current_time = time.time()
+            rgb = PIL.ImageGrab.grab().load()[self.rmBtn.x,self.rmBtn.y]
+            if current_time > endtime:
+                self.interrupt("Can not check all order!!!")
+            time.sleep(1)
+        
+        # check 2 order exist
+        self.checkRGB(self.rmBtn.x,self.rmBtn.y,self.rmBtn.rgb, "Check Big order exist 2 order or not!")
+        self.checkRGB(582,338+self.offset,(173,212,255), "Check Small exist 2 order or not!")
+
+        pyautogui.moveTo(self.rmBtn.x-200, self.rmBtn.y + 85, duration = 1)
+        mouse.click(button)
+        rgb = PIL.ImageGrab.grab().load()[self.iconCheck.x,self.iconCheck.y]
+        endtime = time.time() + 10
+        while rgb != self.iconCheck.rgb:
+            print("\t--> Waiting for loading small order!!!")
+            current_time = time.time()
+            rgb = PIL.ImageGrab.grab().load()[self.iconCheck.x,self.iconCheck.y]
+            if current_time > endtime:
+                self.interrupt("Can not load small order!!!")
+            time.sleep(1)
+
+        self.checkRGB(self.smallCheck.x, self.smallCheck.y,self.smallCheck.rgb,self.smallCheck.message)
+
+        self.click_n_delay(self.backBtn,self.delay)
+        rgb = PIL.ImageGrab.grab().load()[self.rmBtn.x,self.rmBtn.y]
+        endtime = time.time() + 10
+        while rgb != self.rmBtn.rgb:
+            print("\t--> Waiting for loading all order!!!")
+            current_time = time.time()
+            rgb = PIL.ImageGrab.grab().load()[self.rmBtn.x,self.rmBtn.y]
+            if current_time > endtime:
+                self.interrupt("Can not check all order!!!")
+            time.sleep(1)
+
+        pyautogui.moveTo(self.rmBtn.x-200, self.rmBtn.y, duration = 0.5)
+        mouse.click(button)
+        rgb = PIL.ImageGrab.grab().load()[self.iconCheck.x,self.iconCheck.y]
+        endtime = time.time() + 10
+        while rgb != self.iconCheck.rgb:
+            print("\t--> Waiting for loading big order!!!")
+            current_time = time.time()
+            rgb = PIL.ImageGrab.grab().load()[self.iconCheck.x,self.iconCheck.y]
+            if current_time > endtime:
+                self.interrupt("Can not load big order!!!")
+            time.sleep(1)
+
+        self.checkRGB(self.bigCheck.x, self.bigCheck.y,self.bigCheck.rgb,self.bigCheck.message)
+
+
+        print("Back to main page!!!")
+        self.click_n_delay(self.backBtn,self.delay)
+        self.click_n_delay(self.backBtn,self.delay)
+        
+        # time.sleep(7)
+        # self.click_n_delay(self.rmBtn,self.delay)
+        # self.click_n_delay(self.confirmRm,self.delay)
 
     def checkRGB(self,x, y, rgb_check, mess):
         rgb = PIL.ImageGrab.grab().load()[x,y]
@@ -145,6 +234,14 @@ class run:
             print("\tInput",typeBtn.message, ":\tsuccessfully!")    
         # move to OK - okBtn
         self.click_n_delay(self.okBtn,1)
+        if typeBtn.message == "Big":
+            self.checkRGB(self.lastCheck.x,self.lastCheck.y,(255,255,255), "Before submit!!!")
+            print("\t--> Submit Big")
+        elif typeBtn.message == "Small":
+            self.checkRGB(self.lastCheck.x,self.lastCheck.y,self.lastCheck.rgb, "Before submit!!!")
+            print("\t--> Submit Small")
+        
+        time.sleep(2)
         # move to CONFIRM - confirmBtn
         self.click_n_delay(self.confirmBtn,3)
         self.status = 1
@@ -163,6 +260,9 @@ class run:
 
         self.click_n_delay(self.informBtn,self.delay)
 
+        # TODO: Check submit button still exist or not ? 
+        self.checkRGB(self.confirmBtn.x,self.confirmBtn.y,(255,255,255), "Submit failed !!!")
+
     def start(self):
         # m = random.randint(0,7)
         # if m == 2 or m == 3 or m == 4 or m ==7:
@@ -177,13 +277,13 @@ class run:
         self.checkRGB(self.bigBtn.x,self.bigBtn.y,self.bigBtn.rgb,"First check big")
         self.checkRGB(self.smallBtn.x,self.smallBtn.y,self.smallBtn.rgb,"First check small")
         
-
         # refresh NUMBER
         self.click_n_delay(self.refresNumberBtn,2)
-
+        # n = random.randint(0,5)
         if self.status == 0:
             # CALL SMALL - BIG
             self.click_procedure(self.smallBtn, self.smallVal)
+            # time.sleep(waitingClickTime[n])
             self.click_procedure(self.bigBtn, self.bigVal)
             self.status = 0
 
@@ -200,3 +300,4 @@ class run:
         #     self.status = 0
 
 mouse = Controller()
+

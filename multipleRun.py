@@ -16,9 +16,9 @@ start_stop_key = keyboard.KeyCode(char='z')
 exit_key = keyboard.Key.esc
 
 
-INITIAL_PLAY_NUMBER = 92
+INITIAL_PLAY_NUMBER = 144
 # acc1
-cap = 334000
+cap = 300000
 refreshPageBtn = btn(800,104,"Refresh Page" ,(0,0,0))
 crownBtn = btn(60,357,"Crown btn",(241,49,49))
 refresNumberBtn = btn(710,213,"F5 Number",(239, 141, 134))
@@ -39,7 +39,7 @@ runIns = run(refreshPageBtn, crownBtn, refresNumberBtn, bigBtn, smallBtn, moneyI
 runIns.profitBound = 1000
 
 # acc2
-cap1 = 75800
+cap1 = 800
 refreshPageBtn1 = btn(800,610,"Refresh Page" ,(0,0,0))
 crownBtn1 = btn(60,863,"Crown btn",(241,49,49))
 refresNumberBtn1 = btn(710,719,"F5 Number",(239, 141, 134))
@@ -158,6 +158,7 @@ class Program():
                 if self.count == 25:
                     self.running = False
                     print("Please reset me!")
+                    winsound.Beep(frequency, 1000)
                     exit()
                 
                 elapsed_t = time.perf_counter() - start_time

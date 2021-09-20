@@ -23,8 +23,8 @@ exit_key = keyboard.Key.esc
 
 # 1 screen
 
-INITIAL_PLAY_NUMER = 113
-cap = 34600
+INITIAL_PLAY_NUMER = 166
+cap = 304800
 refreshPageBtn = btn(800,104,"Refresh Page" ,(0,0,0))
 crownBtn = btn(60,357,"Crown btn",(241,49,49))
 refresNumberBtn = btn(710,213,"F5 Number",(239, 141, 134))

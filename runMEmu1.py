@@ -25,7 +25,7 @@ exit_key = keyboard.Key.esc
 # 1 screen
 
 INITIAL_PLAY_NUMBER = 142
-cap1 = 35300
+cap1 = 40100
 refreshPageBtn1 = btn(800,610,"Refresh Page" ,(0,0,0))
 crownBtn1 = btn(60,863,"Crown btn",(241,49,49))
 refresNumberBtn1 = btn(710,719,"F5 Number",(239, 141, 134))
@@ -82,12 +82,13 @@ class Program():
         # duration = 1000  # Set Duration To 1000 ms == 1 second
         while self.program_running:
             while self.running:
+                start_time = time.perf_counter()
                 print(time.strftime('%X %x %Z'))
                 
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
                 winsound.Beep(frequency, 600)
-                start_time = time.perf_counter()
+                
                 print("Time  ------- {} -------- {}".format(self.count, self.count -1 + INITIAL_PLAY_NUMBER))
                 time.sleep(1)
                 print("...3")
